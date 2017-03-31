@@ -59,18 +59,18 @@ fastq = []
 fasta = []
 for requestName in requests:
     if redmineexists:
-        red = os.path.join(mnt,'/mnt/nas/bio_requests/') + redmine + '/'
-        redpath =  red + requestName + '/'
+        red = os.path.join(mnt,'bio_requests', redmine, '')
+        redpath =  os.path.join(red, requestName, '')
         if os.path.exists(redpath):
             print("Adding list files to folder " + redpath)
         elif not os.path.exists(red):
             print("Creating folder " + red)
-            os.mkdir(red)
+            os.makedirs(red)
             print("Creating folder " + redpath)
-            os.mkdir(redpath)
+            os.makedirs(redpath)
         else:
             print("Creating folder " + redpath)
-            os.mkdir(redpath)
+            os.makedirs(redpath)
     requestFolder = outputfolder + requestName
     if os.path.exists(requestFolder):
         if clear == 'yes':
