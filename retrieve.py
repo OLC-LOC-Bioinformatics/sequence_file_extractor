@@ -84,29 +84,29 @@ for requestName in requests:
         os.makedirs(requestFolder)
     #If there areis any fastq file requests
     if data['fastq' + requestName]:
-        print("Creating fastq list at " + requestFolder + "/fastqlist.txt")
-        f = open(requestFolder + "/fastqlist.txt",'w')
+        print("Creating fastq list at " + os.path.join(requestFolder + "fastqlist.txt"))
+        f = open(os.path.join(requestFolder, "fastqlist.txt",'w'))
         for item in data['fastq' + requestName]:
             f.write("%s\n" % item)
         f.close()
-        print("Copying " + requestFolder + "/fastqlist.txt" + " to " + redpath)
-        shutil.copy(requestFolder + "/fastqlist.txt", redpath + "fastqlist.txt")
-        print("[" + requestName + "] " + "Copying fastq files to "+ requestFolder + "/")
-        fastq.append(subprocess.Popen(['python',os.path.join(mnt,'MiSeq_Backup/file_extractor_devon.py'), outputfolder +
-                                       requestName + "/fastqlist.txt",requestFolder + "/","-n",mnt,"-c",
+        print("Copying " + os.path.join(requestFolder,"fastqlist.txt") + " to " + redpath)
+        shutil.copy(os.path.join(requestFolder, "fastqlist.txt"), os.path.join(redpath,"fastqlist.txt"))
+        print("[" + requestName + "] " + "Copying fastq files to "+ os.path.join(requestFolder,''))
+        fastq.append(subprocess.Popen(['python',os.path.join(mnt,'MiSeq_Backup','file_extractor_devon.py'), os.path.join(outputfolder,
+                                       requestName,"fastqlist.txt"),os.path.join(requestFolder, ''),"-n",mnt,"-c",
                                        str(len(data['fastq' + requestName])),"-t",requestName]))
     #If there are any fasta file requests
     if data['fasta' + requestName]:
-        print("Creating fasta list at " + requestFolder + '/fastalist.txt')
-        f = open(requestFolder + '/fastalist.txt','w')
+        print("Creating fasta list at " + os.path.join(requestFolder,'fastalist.txt'))
+        f = open(os.path.join(requestFolder,'fastalist.txt','w'))
         for item in data['fasta' + requestName]:
             f.write("%s\n" % item)
         f.close()
-        print("Copying " + requestFolder + "/fastalist.txt" + " to " + redpath)
-        shutil.copy(requestFolder + "/fastalist.txt", redpath + "fastalist.txt")
+        print("Copying " + os.path.join(requestFolder, "fastalist.txt") + " to " + redpath)
+        shutil.copy(os.path.join(requestFolder,"fastalist.txt"), os.path.join(redpath,"fastalist.txt"))
 
-        print("[" + requestName + "] " + "Copying fasta files to "+ requestFolder + "/")
-        fasta.append(subprocess.Popen(['python', os.path.join(mnt,'WGSspades/file_extractor_devon.py'), requestFolder + "/fastalist.txt", requestFolder + "/","-n", mnt, "-t", requestName]))
+        print("[" + requestName + "] " + "Copying fasta files to "+ os.path.join(requestFolder,''))
+        fasta.append(subprocess.Popen(['python', os.path.join(mnt,'WGSspades/file_extractor_devon.py'), os.path.join(requestFolder,"fastalist.txt"), os.path.join(requestFolder,''),"-n", mnt, "-t", requestName]))
 #Wait for all processes to finish
 for process in fasta:
     process.wait()
