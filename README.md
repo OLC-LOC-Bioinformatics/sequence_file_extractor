@@ -67,7 +67,7 @@ Finally run the command:
 
 `python3 retrieve.py`
 
-Optionally, you can set a redmine ticket and it will create a folder in bio_requests for you for each name.
+Optionally, you can set a redmine ticket and it will create a folder in bio_requests for you for each name that includes a text file with the seq ids of all the files you extracted.
 
 `python3 retrieve.py -r 8882`
 
