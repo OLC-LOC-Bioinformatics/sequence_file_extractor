@@ -95,7 +95,7 @@ for requestName in requests:
         f.close()
         if redmine_exists:
             print("Copying " + os.path.join(requestFolder, "fastqlist.txt") + " to " + redpath)
-        shutil.copy(os.path.join(requestFolder, "fastqlist.txt"), os.path.join(redpath, "fastqlist.txt"))
+            shutil.copy(os.path.join(requestFolder, "fastqlist.txt"), os.path.join(redpath, "fastqlist.txt"))
         print("[" + requestName + "] " + "Copying fastq files to " + os.path.join(requestFolder, ''))
         fastq.append(subprocess.Popen(
             ['python', os.path.join(mnt, 'MiSeq_Backup', 'file_extractor_devon.py'), os.path.join(outputfolder,
@@ -112,7 +112,7 @@ for requestName in requests:
         f.close()
         if redmine_exists:
             print("Copying " + os.path.join(requestFolder, "fastalist.txt") + " to " + redpath)
-        shutil.copy(os.path.join(requestFolder, "fastalist.txt"), os.path.join(redpath, "fastalist.txt"))
+            shutil.copy(os.path.join(requestFolder, "fastalist.txt"), os.path.join(redpath, "fastalist.txt"))
 
         print("[" + requestName + "] " + "Copying fasta files to " + os.path.join(requestFolder, ''))
         fasta.append(subprocess.Popen(['python', os.path.join(mnt, 'WGSspades/file_extractor_devon.py'),
