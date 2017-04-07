@@ -93,7 +93,8 @@ for requestName in requests:
         for item in data['fastq' + requestName]:
             f.write("%s\n" % item)
         f.close()
-        print("Copying " + os.path.join(requestFolder, "fastqlist.txt") + " to " + redpath)
+        if redmine_exists:
+            print("Copying " + os.path.join(requestFolder, "fastqlist.txt") + " to " + redpath)
         shutil.copy(os.path.join(requestFolder, "fastqlist.txt"), os.path.join(redpath, "fastqlist.txt"))
         print("[" + requestName + "] " + "Copying fastq files to " + os.path.join(requestFolder, ''))
         fastq.append(subprocess.Popen(
@@ -109,7 +110,8 @@ for requestName in requests:
         for item in data['fasta' + requestName]:
             f.write("%s\n" % item)
         f.close()
-        print("Copying " + os.path.join(requestFolder, "fastalist.txt") + " to " + redpath)
+        if redmine_exists:
+            print("Copying " + os.path.join(requestFolder, "fastalist.txt") + " to " + redpath)
         shutil.copy(os.path.join(requestFolder, "fastalist.txt"), os.path.join(redpath, "fastalist.txt"))
 
         print("[" + requestName + "] " + "Copying fasta files to " + os.path.join(requestFolder, ''))
