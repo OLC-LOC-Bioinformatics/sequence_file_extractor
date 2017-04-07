@@ -9,7 +9,7 @@ import os
 import shutil
 import subprocess
 
-# add arguments
+# Add arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("-r", "--redmine", type=str, help="set a redmine ticket id to put the lists in")
 args = parser.parse_args()
@@ -17,7 +17,7 @@ redmine = args.redmine
 
 # If the user inputted a redmine ticket number then save this ticket
 redmine_exists = False
-if type(redmine) == str:
+if redmine is not None:
     redmine_exists = True
     print("Using Redmine ticket " + redmine)
 
@@ -42,7 +42,7 @@ filetype = "fastq"
 for line in lines:
     if line.startswith('#'):
         special = line[1:]
-        # If it isnt specifying the file type
+        # If it isn't specifying the file type
         if special.lower() == "fastq" or special.lower() == 'fasta':
             filetype = special.lower()
         else:
@@ -88,7 +88,7 @@ for requestName in requests:
         os.makedirs(requestFolder)
     # If there are any fastq file requests
     if data['fastq' + requestName]:
-        print("Creating fastq list at " + os.path.join(requestFolder,"fastqlist.txt"))
+        print("Creating fastq list at " + os.path.join(requestFolder, "fastqlist.txt"))
         f = open(os.path.join(requestFolder, "fastqlist.txt"), 'w')
         for item in data['fastq' + requestName]:
             f.write("%s\n" % item)
