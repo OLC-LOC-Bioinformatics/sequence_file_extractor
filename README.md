@@ -1,5 +1,5 @@
 # sequence_file_extractor
-Written by Devon Mack, March 31 2017                                             
+Written by Devon Mack, May 2017                                             
 
 This program will pull all requested fasta and fastq files into the folder of your choice.
 In addition, it can zip all your files for you.
