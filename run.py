@@ -1,4 +1,6 @@
 from sequence_getter import SequenceGetter
+from pyaccessories.TimeLog import Timer
+
 import sys
 import os
 import re
@@ -27,8 +29,11 @@ if not args.fastq and not args.fasta:
 script_dir = sys.path[0]
 retriever = SequenceGetter(outputfolder=os.path.join(script_dir, 'extract', name))
 
+t = Timer()
+t.set_colour(32)
+
 if args.fastq:
-    print("Retrieving fastqs...")
+    t.time_print("Retrieving fastqs...")
 
     f = open("fastq_retrieve_list.txt", "r")
     ids = re.findall(r"(2\d{3}-\w{2,10}-\d{3,4})", f.read())
@@ -39,7 +44,7 @@ if args.fastq:
             retriever.retrieve_file(seq_id, filetype="fastq_R%d" % r)
 
 if args.fasta:
-    print("Retrieving fastas...")
+    t.time_print("Retrieving fastas...")
     f = open("fasta_retrieve_list.txt", "r")
     ids = re.findall(r"(2\d{3}-\w{2,10}-\d{3,4})", f.read())
     f.close()
@@ -51,7 +56,7 @@ if args.zip:
     # Zip all the files
     p = os.path.join(script_dir, 'extract', name)
     results_zip = os.path.join(p, name + '.zip')
-    self.t.time_print("Creating zip file %s" % results_zip)
+    t.time_print("Creating zip file %s" % results_zip)
 
     try:
         os.remove(results_zip)
@@ -61,6 +66,6 @@ if args.zip:
     zipf = zipfile.ZipFile(results_zip, 'w', zipfile.ZIP_DEFLATED)
     for to_zip in os.listdir(p):
         zipf.write(os.path.join(p, to_zip), arcname=to_zip)
-        self.t.time_print("Zipped %s" % to_zip)
+        t.time_print("Zipped %s" % to_zip)
 
     zipf.close()
