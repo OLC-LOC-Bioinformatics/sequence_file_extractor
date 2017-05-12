@@ -6,10 +6,8 @@
 
 import os
 import shutil
-import sys
 import glob
 from collections import defaultdict
-from pyaccessories.SaveLoad import SaveLoad
 
 
 class SequenceGetter(object):

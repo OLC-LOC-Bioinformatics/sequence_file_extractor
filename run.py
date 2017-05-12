@@ -1,5 +1,6 @@
 from sequence_getter import SequenceGetter
 from pyaccessories.TimeLog import Timer
+from pyaccessories.SaveLoad import SaveLoad
 
 import sys
 import os
@@ -27,7 +28,26 @@ if not args.fastq and not args.fasta:
     exit(1)
 
 script_dir = sys.path[0]
-retriever = SequenceGetter(outputfolder=os.path.join(script_dir, 'extract', name))
+
+# Load NAS directory
+load = SaveLoad()
+if load.load(file_name="config.json", create=True):
+    if 'nasmnt' in load.__dict__:
+        nasmnt = load.nasmnt
+    else:
+        load.nasmnt = input("nasmnt not in config.json, please enter it here:\n")
+        nasmnt = load.nasmnt
+        load.dump('config.json')
+        print("Updated config.json")
+else:
+    # File created
+    load.nasmnt = input("nasmnt not in config.json, please enter it here:\n")
+    nasmnt = load.nasmnt
+    load.dump('config.json')
+    print("Updated config.json")
+
+retriever = SequenceGetter(outputfolder=os.path.join(script_dir, 'extract', name),
+                           nasmnt=os.path.normpath(nasmnt), output=False)
 
 t = Timer()
 t.set_colour(32)
@@ -41,7 +61,7 @@ if args.fastq:
 
     for seq_id in ids:
         for r in [1,2]:
-            retriever.retrieve_file(seq_id, filetype="fastq_R%d" % r)
+            t.time_print(retriever.retrieve_file(seq_id, filetype="fastq_R%d" % r))
 
 if args.fasta:
     t.time_print("Retrieving fastas...")
@@ -50,7 +70,7 @@ if args.fasta:
     f.close()
 
     for seq_id in ids:
-        retriever.retrieve_file(seq_id, filetype="fasta")
+        t.time_print(retriever.retrieve_file(seq_id, filetype="fasta"))
 
 if args.zip:
     # Zip all the files
