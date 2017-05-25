@@ -17,9 +17,11 @@ parser.add_argument("-q", "--fastq", action="store_true",
                     help="Retrieve fastq files in fastq_retrieve_list.txt")
 parser.add_argument("--zip", action="store_true",
                     help="Zip the final results")
+parser.add_argument("-n", "--nas", type=str, help="Use this nas mount"
+                                                  " directory instead of the default in the config file.")
 
 args = parser.parse_args()
-name = args.output_folder_name
+name = args.output_folder
 
 # If bad arguments
 if not args.fastq and not args.fasta:
@@ -27,11 +29,16 @@ if not args.fastq and not args.fasta:
     parser.print_help()
     exit(1)
 
+
 script_dir = sys.path[0]
 
 # Load NAS directory
-load = SaveLoad(file_name="config.json", create=True)
-nasmnt = load.get('nasmnt', default='/mnt/nas/')
+if args.nas is not None:
+    nasmnt = args.nas
+else:
+    load = SaveLoad(file_name="config.json", create=True)
+    nasmnt = load.get('nasmnt', default='/mnt/nas/')
+
 outfolder = os.path.normpath(name)
 retriever = SequenceGetter(outputfolder=outfolder,
                            nasmnt=os.path.normpath(nasmnt), output=False)
