@@ -21,7 +21,7 @@ parser.add_argument("-n", "--nas", type=str, help="Use this nas mount"
                                                   " directory instead of the default in the config file.")
 
 args = parser.parse_args()
-name = args.output_folder
+name = os.path.normpath(args.output_folder)
 
 # If bad arguments
 if not args.fastq and not args.fasta:
@@ -32,6 +32,8 @@ if not args.fastq and not args.fasta:
 
 script_dir = sys.path[0]
 
+
+
 # Load NAS directory
 if args.nas is not None:
     nasmnt = args.nas
@@ -39,7 +41,11 @@ else:
     load = SaveLoad(file_name="config.json", create=True)
     nasmnt = load.get('nasmnt', default='/mnt/nas/')
 
-outfolder = os.path.normpath(name)
+if not os.path.normpath(name).startswith('/'):
+    outfolder = os.path.join(script_dir, name)
+else:
+    outfolder = name
+    
 retriever = SequenceGetter(outputfolder=outfolder,
                            nasmnt=os.path.normpath(nasmnt), output=False)
 
