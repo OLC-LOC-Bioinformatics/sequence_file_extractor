@@ -32,8 +32,6 @@ if not args.fastq and not args.fasta:
 
 script_dir = sys.path[0]
 
-
-
 # Load NAS directory
 if args.nas is not None:
     nasmnt = args.nas
@@ -45,7 +43,7 @@ if not os.path.normpath(name).startswith('/'):
     outfolder = os.path.join(script_dir, name)
 else:
     outfolder = name
-    
+
 retriever = SequenceGetter(outputfolder=outfolder,
                            nasmnt=os.path.normpath(nasmnt), output=False)
 
@@ -59,8 +57,14 @@ if args.fastq:
     ids = re.findall(r"(2\d{3}-\w{2,10}-\d{3,4})", f.read())
     f.close()
 
+    t.time_print("Found %d ids..." % len(ids))
+    counter = 1
+    total = len(ids)*2
+
     for seq_id in ids:
         for r in [1, 2]:
+            t.time_print("%d of %d:" % (counter+r-1, total))
+            counter += 1
             t.time_print(retriever.retrieve_file(seq_id, filetype="fastq_R%d" % r))
 
 if args.fasta:
@@ -69,7 +73,13 @@ if args.fasta:
     ids = re.findall(r"(2\d{3}-\w{2,10}-\d{3,4})", f.read())
     f.close()
 
+    t.time_print("Found %d ids..." % len(ids))
+    counter = 1
+    total = len(ids) * 2
+
     for seq_id in ids:
+        t.time_print("%d of %d:" % (counter, total))
+        counter += 1
         t.time_print(retriever.retrieve_file(seq_id, filetype="fasta"))
 
 if args.zip:
