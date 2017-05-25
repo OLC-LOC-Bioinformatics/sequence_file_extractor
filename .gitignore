@@ -4,3 +4,5 @@
 .idea
 __pycache__/
 extract/
+fasta_retrieve_list.txt
+fastq_retrieve_list.txt
