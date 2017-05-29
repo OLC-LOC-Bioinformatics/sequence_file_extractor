@@ -64,9 +64,8 @@ if args.fastq:
     for seq_id in ids:
         for r in [1, 2]:
             t.time_print("%d of %d:" % (counter+r-1, total))
-            counter += 1
             t.time_print(retriever.retrieve_file(seq_id, filetype="fastq_R%d" % r))
-
+        counter += 2 
 if args.fasta:
     t.time_print("Retrieving fastas...")
     f = open("fasta_retrieve_list.txt", "r")
