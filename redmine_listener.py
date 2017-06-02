@@ -237,7 +237,7 @@ class Run(object):
         self.redmine = None
 
         try:
-            self.main()
+            self.main(force)
         except Exception as e:
             import traceback
             self.t.time_print("[Error] Dumping...\n%s" % traceback.format_exc())
