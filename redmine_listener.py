@@ -156,7 +156,7 @@ class Run(object):
             error = False
             try:
                 inputs = self.get_input(input_list, issue['id'])
-                response = "Retrieving files..."
+                response = "Retrieving %d fastas and %d fastqs..." % (len(inputs['fastas']), len(inputs['fastqs']))
             except ValueError as e:
                 response = "Sorry, there was a problem with your request:\n%s\n" \
                            "Please submit a new request and close this one." % e.args[0]

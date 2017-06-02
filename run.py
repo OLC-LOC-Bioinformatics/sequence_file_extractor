@@ -46,7 +46,9 @@ class MassExtractor(object):
         self.retriever = SequenceGetter(outputfolder=self.outfolder,
                                    nasmnt=os.path.normpath(nasmnt), output=False)
 
-        self.t = Timer()
+        import datetime
+        self.t = Timer(log_file=os.path.join(self.script_dir, 'extractor_logs',
+                                             datetime.datetime.now().strftime("%d-%m-%Y_%S:%M:%H")))
         self.t.set_colour(32)
 
     def run(self):
