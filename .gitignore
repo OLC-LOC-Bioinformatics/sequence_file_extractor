@@ -6,3 +6,5 @@ __pycache__/
 extract/
 fasta_retrieve_list.txt
 fastq_retrieve_list.txt
+*.json
+runner_logs
