@@ -11,7 +11,7 @@ from collections import defaultdict
 
 
 class SequenceGetter(object):
-    def retrieve_file(self, seqid, filetype="fastq_R1", getpathonly=False):
+    def retrieve_file(self, seqid, filetype="fastq_R1", getpathonly=False, outputfolder=None):
         """
         This will retrieve a file from the NAS and put it in the directory specified in the constructor
             Parameters:
@@ -19,8 +19,10 @@ class SequenceGetter(object):
                 part: 1 or 2 (which part of the pair you want, R1 or R2)
                 filetype: either fasta or fastq
                 getpathonly: return the path instead of retrieving the file
+                outputfolder: change the output folder
         """
-
+        if outputfolder is not None:
+            self.outputfolder = outputfolder
         msg = "Default message (something went wrong)"
         return_path = None
         # Create the output folder if it doesn't exist

@@ -23,6 +23,25 @@ It will now ask you for all the configuration options/requirements:
 
 Finally enter your Redmine API Key, you can find your API key on your account page ( /my/account ) when logged in, on the right-hand pane of the default layout.
 
+### Running the Redmine Listener permanently
+First install the supervisor package
+```console
+sudo apt-get install supervisor
+```
+Create a config file for your daemon at /etc/supervisor/conf.d/file_retriever.conf
+```
+[program:file_retriever]
+directory=/path/to/project/root
+environment=ENV_VARIABLE=example,OTHER_ENV_VARIABLE=example2
+command=python3 redmine_listener.py -f
+autostart=true
+autorestart=true
+```
+Restart supervisor to load your new .conf
+```
+supervisorctl update
+supervisorctl restart file_retriever
+```
 ## Usage Examples:
 #### To run the server:
 ```console

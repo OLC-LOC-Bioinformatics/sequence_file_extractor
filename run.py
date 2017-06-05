@@ -79,7 +79,8 @@ class MassExtractor(object):
                 for r in [1, 2]:
                     self.t.time_print("%d of %d:" % (counter+r-1, total))
                     counter += 1
-                    msg = self.retriever.retrieve_file(seq_id, filetype="fastq_R%d" % r)
+                    msg = self.retriever.retrieve_file(seq_id, filetype="fastq_R%d" % r,
+                                                       outputfolder=os.path.join(self.outfolder, 'Fastq'))
                     self.t.time_print(msg)
                     if 'missing' in msg.lower():
                         self.missing.append(msg + ' (R%d)' % r)
@@ -100,7 +101,8 @@ class MassExtractor(object):
             for seq_id in ids:
                 self.t.time_print("%d of %d:" % (counter, total))
                 counter += 1
-                msg = self.retriever.retrieve_file(seq_id, filetype="fasta")
+                msg = self.retriever.retrieve_file(seq_id, filetype="fasta",
+                                                   outputfolder=os.path.join(self.outfolder, 'Fasta'))
                 self.t.time_print(msg)
                 if 'missing' in msg.lower():
                     self.missing.append(msg)
