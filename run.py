@@ -47,6 +47,8 @@ class MassExtractor(object):
                                    nasmnt=os.path.normpath(nasmnt), output=False)
 
         import datetime
+        if not os.path.exists(os.path.join(self.script_dir, 'extractor_logs')):
+            os.makedirs(os.path.join(self.script_dir, 'extractor_logs'))
         self.t = Timer(log_file=os.path.join(self.script_dir, 'extractor_logs',
                                              datetime.datetime.now().strftime("%d-%m-%Y_%S:%M:%H")))
         self.t.set_colour(32)
