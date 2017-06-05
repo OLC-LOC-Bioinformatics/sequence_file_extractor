@@ -110,7 +110,7 @@ class Run(object):
             # Set it to feedback and assign it back to the author
             get = self.redmine.get_issue_data(os.path.split(inputs['outputfolder'])[-1])
             self.redmine.update_issue(
-                                      inputs['name'],
+                                      os.path.split(inputs['outputfolder'])[-1],
                                       notes="There was a problem with your request. Please create a new issue on"
                                             " Redmine to re-run it.\n%s" % msg,
                                       status_change=4,
