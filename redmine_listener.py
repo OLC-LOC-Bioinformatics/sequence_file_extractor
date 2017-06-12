@@ -88,7 +88,7 @@ class Run(object):
         # Assign it back to the author
         get = self.redmine.get_issue_data(redmine_id)
 
-        self.redmine.update_issue(redmine_id, notes, status_change=4, assign_to_id=get['issue']['author']['id'])
+        self.redmine.update_issue(redmine_id, notes + self.botmsg, status_change=4, assign_to_id=get['issue']['author']['id'])
 
     def run_request(self, inputs):
         # Parse input
@@ -112,7 +112,7 @@ class Run(object):
             self.redmine.update_issue(
                                       os.path.split(inputs['outputfolder'])[-1],
                                       notes="There was a problem with your request. Please create a new issue on"
-                                            " Redmine to re-run it.\n%s" % msg,
+                                            " Redmine to re-run it.\n%s" % msg + self.botmsg,
                                       status_change=4,
                                       assign_to_id=get['issue']['author']['id']
                                       )
@@ -166,11 +166,11 @@ class Run(object):
 
             if error:  # If something went wrong set the status to feedback and assign the author the issue
                 get = self.redmine.get_issue_data(issue['id'])
-                self.redmine.update_issue(issue['id'], notes=response, status_change=4,
+                self.redmine.update_issue(issue['id'], notes=response + self.botmsg, status_change=4,
                                           assign_to_id=get['issue']['author']['id'])
             else:
                 # Set the issue to in progress since the SNVPhyl is running
-                self.redmine.update_issue(issue['id'], notes=response, status_change=2)
+                self.redmine.update_issue(issue['id'], notes=response + self.botmsg, status_change=2)
 
             if error:
                 return
@@ -235,6 +235,8 @@ class Run(object):
         self.key = 'Sixteen byte key'
 
         self.redmine = None
+
+        self.botmsg = '\n\n_I am a bot. This action was performed automatically._'
 
         try:
             self.main(force)
