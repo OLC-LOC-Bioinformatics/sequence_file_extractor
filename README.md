@@ -7,15 +7,47 @@ In addition, it can zip all your files for you.
 ## Prerequisites:
 - Python 3
       
-## Installation:     
+## Installation
 Run the command:
+```console
+git clone https://github.com/devonpmack/sequence_file_extractor.git --recursive
+```
+### Configuration of the redmine listener:     
+Run the program and it will ask you for all the configuration it needs.
+```console
+python3 redmine_listener.py
+```
+It will now ask you for all the configuration options/requirements:
+- nasmnt: path to the NAS
+- seconds_between_redmine_checks: How many seconds to wait between checks on redmine looking for new SNVPhyls to run
 
-`git clone https://github.com/devonpmack/sequence_file_extractor.git --recursive`
+Finally enter your Redmine API Key, you can find your API key on your account page ( /my/account ) when logged in, on the right-hand pane of the default layout.
 
-Next, edit the config.json file and make sure your nas mount directory is correct.
+### Running the Redmine Listener permanently
+First install the supervisor package
+```console
+sudo apt-get install supervisor
+```
+Create a config file for your daemon at /etc/supervisor/conf.d/file_retriever.conf
+```
+[program:file_retriever]
+directory=/path/to/project/root
+command=python3 redmine_listener.py -f
+autostart=true
+autorestart=true
+```
+Replace /path/to/project/root with the path to the folder you cloned auto_snvphyl into.
 
+Restart supervisor to load your new .conf
+```
+supervisorctl update
+supervisorctl restart file_retriever
+```
 ## Usage Examples:
-
+#### To run the server:
+```console
+python3 redmine_listener.py
+```
 #### To retrieve fasta files:
 
 First, edit the file fasta_retrieve_list.txt. Paste in all your seq-ids, separated however you want.
